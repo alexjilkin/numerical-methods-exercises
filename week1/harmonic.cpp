@@ -6,12 +6,12 @@ float harmonic() {
   float prevSum = 0;
   double k = 1;
 
+  // Sums up the harmonic series until the sum stops changing
   while(true) {
     sum += (1 / (float)k);
 
     if (sum == prevSum) {
       return sum;
-      std::cout << k;
     }
 
     prevSum = sum;
@@ -24,13 +24,18 @@ float harmonic() {
 float harmonic_bunch (int N) {
   float sum = 0;
   float prevSum = 0;
-  double k = 1;
+  double k = 0;
 
+  // Sums up the harmonic series in bunches of N until the sum stops changing
   while(true) {
 
-    for (int j = 0; j < N; j++) {
-      sum += (1 / (float)k);
+    float innerSum = 0;
+
+    for (int j = 1; j <= N; j++) {
+      innerSum += (1 / (float)((k * N) + j));
     }
+
+    sum += innerSum;
 
     if (sum == prevSum) {
       return sum;
@@ -47,9 +52,25 @@ float harmonic_bunch (int N) {
 
 
 int main() {
-   
-    std::cout << harmonic_bunch(50);
 
+    std::cout << "harmonic(): ";
+    std::cout << harmonic();
+    
+    std::cout << "\n";
+    std::cout << "harmonic_bunch(50): ";
+    std::cout << harmonic_bunch(50);
+    std::cout << "\n";
+
+    std::cout << "harmonic_bunch(100): ";
+    std::cout << harmonic_bunch(100);
+
+    std::cout << "\n";
+    std::cout << "harmonic_bunch(200): ";
+    std::cout << harmonic_bunch(200);
+
+    std::cout << "\n";
+    std::cout << "harmonic_bunch(500): ";
+    std::cout << harmonic_bunch(500);
     std::cout << "\n";
 }
 
