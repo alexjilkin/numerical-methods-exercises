@@ -32,7 +32,6 @@ double exp_taylor(double x, double k) {
 
 
 void funks(double x) {
-    std::cout << "\n";
     double f1 = (cos(x) - 1) / (x * x);
     double f2 = (exp(x) - exp(-x)) / (2 * x);
     
@@ -40,9 +39,8 @@ void funks(double x) {
 }
 
 void funks_Taylor(double x) {
-    std::cout << "\n";
-    double f1 = cos_taylor(x, 100);
-    double f2 = (exp_taylor(x, 100));
+    double f1 = cos_taylor(x, 1000);
+    double f2 = (exp_taylor(x, 1000));
     
     std::cout << "f1: " + std::to_string(f1) + " f2: " + std::to_string(f2) + "\n";
 }
@@ -53,6 +51,10 @@ int main() {
         std::cout << "Insert number:";
         std::cin >> x;
 
+        std::cout << "funks - ";
+        funks(x);
+
+        std::cout << "funks_Taylor - ";
         funks_Taylor(x);
     }
 }
