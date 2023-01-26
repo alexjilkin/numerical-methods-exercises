@@ -24,7 +24,7 @@ float harmonic() {
 float harmonic_bunch (int N) {
   float sum = 0;
   float prevSum = 0;
-  double k = 0;
+  double k = 1;
 
   // Sums up the harmonic series in bunches of N until the sum stops changing
   while(true) {
@@ -32,7 +32,7 @@ float harmonic_bunch (int N) {
     float innerSum = 0;
 
     for (int j = 1; j <= N; j++) {
-      innerSum += (1 / (float)((k * N) + j));
+      innerSum += (1 / (float)(((k - 1) * N) + j));
     }
 
     sum += innerSum;
