@@ -3,83 +3,121 @@
 #include <string>
 
 #ifdef __APPLE__
-  #include <Accelerate/Accelerate.h>
+#include <Accelerate/Accelerate.h>
 #endif
 
-double * residual(int n, double **a, double *x, double *b, int m) {
+void print_vector(double *v, int n, std::string label);
+void print_matrix(double **a, int n, std::string label);
+
+// Returns the norm: ||Ax - b||_m
+double residual(int n, double **a, double *x, double *b, int m)
+{
   int c1 = n, ldb = n, pivot[n], info;
   int nrhs = 1;
-
-  // Save original 
-  memcpy(x, b, n * sizeof(double));
-
-  // Solve the linear system
-  dgesv_(&c1, &nrhs, &a[0][0], &c1, pivot, x, &ldb, &info);
 
   char no = 'N';
   double alpha = 1;
   double beta = 0;
   int incx = 1;
-  double* y= new double[n];
+  double *y = new double[n];
 
+  print_vector(b, n, "b");
   // Puts A * x into y
-  dgemv_(&no, &c1, &c1, &alpha, &a[0][0], &n, b, &c1, &beta, y, &incx);
-
-  if (info != 0) {
-    std::cerr << "dgesv returned an error " << info << "\n";
-
-    return b;
-  } 
-
+  dgemv_(&no, &c1, &c1, &alpha, &a[0][0], &n, &x[0], &c1, &beta, y, &incx);
   
-  std::cout << "x: [";
+  // Residual vector
+  double r[n];
+  for (int i = 0; i < n; i++) {
+    r[i] = y[i] - b[i];
+  }
 
-  for (int i = 0; i < n; i++)
-    std::cout << x[i] << ", ";
+  print_vector(r, n, "r");
 
-  std::cout << "] \n";
+  double norm = 0;
 
-  std::cout << "y: [";
+  // Infinite norm
+  if (m == 0) {
+    double max = 0;
+   
 
-  for (int i = 0; i < n; i++)
-    std::cout << y[i] << ", ";
+    for (int i = 0; i < n; i++)  {
+       double current = abs(r[i]);
+       if (current > max) {
+        max = current;
+       }
+    }
+      
 
-  std::cout << "] \n";
+    norm = max;
+  } else {
+    for (int i = 0; i < n; i++) 
+      norm += pow(pow(abs(r[i]),m), 1/m);
+    
+  }
 
-  return b;
+
+  return norm;
 }
 
-double * residual_with_input() {
+void residual_with_input()
+{
   int n;
 
   // Reads matrix values
-  std::cout << "Enter n and then on each line type a row of the matrix A. followed by a line of b: \n";
   std::cin >> n;
   std::cout << "";
 
-
-  double **a, b[n];
+  double **a, **a_orig, b[n];
 
   // Initialize a 2d array as pointer
   a = new double *[n];
-  for(int i = 0; i <n; i++)
-    a[i] = new double[n];
+  a_orig = new double *[n];
 
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++)
+    a[i] = new double[n];
+  
+  for (int i = 0; i < n; i++)
+    a_orig[i] = new double[n];
+  
+
+  double temp;
+
+  for (int i = 0; i < n; i++)
+  {
     for (int j = 0; j < n; j++)
-      std::cin >> a[j][i];
+    {
+      std::cin >> temp;
+
+      a[j][i] = temp;
+      a_orig[j][i] = temp;
+    }
   }
 
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++)
+  {
     std::cin >> b[i];
   }
 
-  double x[5] = {1, 2, 3, 4, 5};
+  double x[n];
 
-  residual(n, a, &x[0], &b[0], 1);
+  int c1 = n, ldb = n, pivot[n], info;
+  int nrhs = 1;
 
+  // Move b into x variable
+  memcpy(x, b, n * sizeof(double));
+
+  print_matrix(a, n, "A");
+  
+  // Solve the linear system
+  dgesv_(&c1, &nrhs, &a[0][0], &c1, pivot, x, &ldb, &info);
+
+  print_vector(x, n, "x");
+
+  // dgesv_ transforms the a given to it, so I created a copy name a_orig
+  double norm = residual(n, a_orig, x, b, 0);
+
+  std::cout << "The norm is: " << norm;
 }
-
 
 int main()
 {
