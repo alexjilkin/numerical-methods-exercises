@@ -11,7 +11,7 @@ void print_vector(double *v, int n, std::string label)
   std::cout << "] \n";
 }
 
-void print_matrix(double **a, int n, std::string label)
+void print_matrix(double *a, int n, std::string label)
 {
   std::cout << label << ": ";
 
@@ -20,7 +20,7 @@ void print_matrix(double **a, int n, std::string label)
     std::cout << "\n";
 
     for (int j = 0; j < n; j++)
-      std::cout << a[j][i] << ", ";
+      std::cout << a[j*n+i] << ", ";
   }
 
   std::cout << " \n";

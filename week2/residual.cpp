@@ -7,10 +7,10 @@
 #endif
 
 void print_vector(double *v, int n, std::string label);
-void print_matrix(double **a, int n, std::string label);
+void print_matrix(double *a, int n, std::string label);
 
 // Returns the norm: ||Ax - b||_m
-double residual(int n, double **a, double *x, double *b, int m)
+double residual(int n, double *a, double *x, double *b, int m)
 {
   int incx = 1;
   char no = 'N';
@@ -24,7 +24,7 @@ double residual(int n, double **a, double *x, double *b, int m)
   print_matrix(a, n, "A");
 
   // Puts A * x into y
-  dgemv_(&no, &n, &n, &alpha, a[0], &n, x, &incx, &beta, y, &incx);
+  dgemv_(&no, &n, &n, &alpha, a, &n, x, &incx, &beta, y, &incx);
   // dgemm_(&no, &no, &n, &one, &n, &alpha, &a[0][0], &n, x, &n, &beta, y, &n);
   print_vector(y, n, "y");
   // Residual vector
@@ -66,17 +66,7 @@ void residual_with_input()
   std::cin >> n;
   std::cout << "n: " << n << "\n";
   
-  double **a, **a_orig, b[n];
-
-  // Initialize a 2d array as pointer
-  a = new double *[n];  
-  a_orig = new double *[n];
-
-  for (int i = 0; i < n; i++)
-    a[i] = new double[n];
-  
-  for (int i = 0; i < n; i++)
-    a_orig[i] = new double[n];
+  double a[n * n], a_orig[n * n], b[n];
   
   double temp;
 
@@ -87,8 +77,8 @@ void residual_with_input()
     {
       std::cin >> temp;
 
-      a[j][i] = temp;
-      a_orig[j][i] = temp;
+      a[j*n+i] = temp;
+      a_orig[j*n+i] = temp;
     }
   }
 
@@ -111,9 +101,9 @@ void residual_with_input()
   // print_matrix(a, n, "A");
   
   // Solve the linear system
-  dgesv_(&n, &rhs, &a[0][0], &n, p, x, &n, &info);
+  dgesv_(&n, &rhs, a, &n, p, x, &n, &info);
 
-  // print_vector(x, n, "x");
+  print_vector(x, n, "x");
 
   // dgesv_ transforms the 'a' given to it, so I created a copy named 'a_orig'
   double norm0 = residual(n, a_orig, x, b, 0);
