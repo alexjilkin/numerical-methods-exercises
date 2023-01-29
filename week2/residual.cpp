@@ -10,19 +10,41 @@ double * residual(int n, double **a, double *x, double *b, int m) {
   int c1 = n, ldb = n, pivot[n], info;
   int nrhs = 1;
 
+  // Save original 
+  memcpy(x, b, n * sizeof(double));
+
   // Solve the linear system
-  dgesv_(&c1, &nrhs, &a[0][0], &c1, pivot, b, &ldb, &info);
+  dgesv_(&c1, &nrhs, &a[0][0], &c1, pivot, x, &ldb, &info);
 
-  if (info == 0) {
-    std::cout << "b: [";
+  char no = 'N';
+  double alpha = 1;
+  double beta = 0;
+  int incx = 1;
+  double* y= new double[n];
 
-    for (int i = 0; i < n; i++)
-      std::cout << b[i] << ", ";
+  // Puts A * x into y
+  dgemv_(&no, &c1, &c1, &alpha, &a[0][0], &n, b, &c1, &beta, y, &incx);
 
-    std::cout << "] \n";
-  } else {
+  if (info != 0) {
     std::cerr << "dgesv returned an error " << info << "\n";
-  }
+
+    return b;
+  } 
+
+  
+  std::cout << "x: [";
+
+  for (int i = 0; i < n; i++)
+    std::cout << x[i] << ", ";
+
+  std::cout << "] \n";
+
+  std::cout << "y: [";
+
+  for (int i = 0; i < n; i++)
+    std::cout << y[i] << ", ";
+
+  std::cout << "] \n";
 
   return b;
 }

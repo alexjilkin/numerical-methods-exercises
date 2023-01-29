@@ -15,8 +15,16 @@ float harmonic_kahan(double N) {
     t = s + y;
     e = (t - s) - y;
 
-    if (i % 10000000 == 0) {
+    if (i % 100000000 == 0) {
        std::cout << i;
+       std::cout << "\n";
+
+       std::cout << e;
+       std::cout << "\n";
+       std::cout << y;
+       std::cout << "\n";
+
+       std::cout << s;
        std::cout << "\n";
     }
     s = t;
