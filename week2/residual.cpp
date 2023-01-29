@@ -52,7 +52,6 @@ double residual(int n, double **a, double *x, double *b, int m)
   } else {
     for (int i = 0; i < n; i++) 
       norm += pow(pow(abs(r[i]),m), 1/m);
-    
   }
 
 
@@ -82,6 +81,7 @@ void residual_with_input()
 
   double temp;
 
+  // Read 2D array into a and a_orig for a a duplicate
   for (int i = 0; i < n; i++)
   {
     for (int j = 0; j < n; j++)
@@ -93,6 +93,7 @@ void residual_with_input()
     }
   }
 
+  // Last n of inputs is the b array.
   for (int i = 0; i < n; i++)
   {
     std::cin >> b[i];
@@ -109,14 +110,20 @@ void residual_with_input()
   print_matrix(a, n, "A");
   
   // Solve the linear system
-  dgesv_(&c1, &nrhs, &a[0][0], &c1, pivot, x, &ldb, &info);
+  dgesv_(&n, &nrhs, &a[0][0], &n, pivot, x, &ldb, &info);
 
   print_vector(x, n, "x");
 
-  // dgesv_ transforms the a given to it, so I created a copy name a_orig
-  double norm = residual(n, a_orig, x, b, 0);
+  // dgesv_ transforms the 'a' given to it, so I created a copy named 'a_orig'
+  double norm0 = residual(n, a_orig, x, b, 0);
+  double norm1 = residual(n, a_orig, x, b, 1);
+  double norm2 = residual(n, a_orig, x, b, 2);
 
-  std::cout << "The norm is: " << norm;
+  std::cout << 
+    "The norms are: \n" << 
+    "Infinite: " << norm0 << " " <<
+    "1: " << norm1 << " " <<
+    "2: " << norm2 << " " << "\n";
 }
 
 int main()
