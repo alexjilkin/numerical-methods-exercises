@@ -18,15 +18,9 @@ double residual(int n, double *a, double *x, double *b, int m)
   int one = 1;
   double y[n];
  
-  print_vector(b, n, "b");
-  print_vector(x, n, "x");
-
-  print_matrix(a, n, "A");
-
   // Puts A * x into y
   dgemv_(&no, &n, &n, &alpha, a, &n, x, &incx, &beta, y, &incx);
-  // dgemm_(&no, &no, &n, &one, &n, &alpha, &a[0][0], &n, x, &n, &beta, y, &n);
-  print_vector(y, n, "y");
+  // print_vector(y, n, "y");
   // Residual vector
   double r[n];
   for (int i = 0; i < n; i++) {
@@ -40,8 +34,6 @@ double residual(int n, double *a, double *x, double *b, int m)
   // Infinite norm
   if (m == 0) {
     double max = 0;
-   
-
     for (int i = 0; i < n; i++)  {
        double current = abs(r[i]);
        if (current > max) {
@@ -51,10 +43,12 @@ double residual(int n, double *a, double *x, double *b, int m)
       
     norm = max;
   } else {
-    for (int i = 0; i < n; i++) 
-      norm += pow(pow(abs(r[i]),m), 1/m);
+    for (int i = 0; i < n; i++) {
+      norm += pow(abs(r[i]), m);
+    }
+      
+    norm = pow(norm, 1.0/m);
   }
-
 
   return norm;
 }
@@ -97,24 +91,20 @@ void residual_with_input()
 
   // Move b into x variable
   memcpy(x, b, n * sizeof(double));
-
-  // print_matrix(a, n, "A");
   
   // Solve the linear system
   dgesv_(&n, &rhs, a, &n, p, x, &n, &info);
 
-  print_vector(x, n, "x");
-
   // dgesv_ transforms the 'a' given to it, so I created a copy named 'a_orig'
   double norm0 = residual(n, a_orig, x, b, 0);
-  // double norm1 = residual(n, a_orig, x, b, 1);
-  // double norm2 = residual(n, a_orig, x, b, 2);
+  double norm1 = residual(n, a_orig, x, b, 1);
+  double norm2 = residual(n, a_orig, x, b, 2);
 
   std::cout << 
     "The norms are: \n" << 
-    "Infinite: " << norm0 << " " ;
-    // "1: " << norm1 << " " <<
-    // "2: " << norm2 << " " << "\n";
+    "Infinite: " << norm0 << "\n" << 
+    "1: " << norm1 << " " << "\n" <<
+    "2: " << norm2 << " " << "\n";
 }
 
 int main()
