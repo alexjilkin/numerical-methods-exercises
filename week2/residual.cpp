@@ -12,19 +12,21 @@ void print_matrix(double **a, int n, std::string label);
 // Returns the norm: ||Ax - b||_m
 double residual(int n, double **a, double *x, double *b, int m)
 {
-  int c1 = n, ldb = n, pivot[n], info;
-  int nrhs = 1;
-
-  char no = 'N';
-  double alpha = 1;
-  double beta = 0;
   int incx = 1;
-  double *y = new double[n];
-
+  char no = 'N';
+  double alpha = 1.0, beta = 0;
+  int one = 1;
+  double y[n];
+ 
   print_vector(b, n, "b");
+  print_vector(x, n, "x");
+
+  print_matrix(a, n, "A");
+
   // Puts A * x into y
-  dgemv_(&no, &c1, &c1, &alpha, &a[0][0], &n, &x[0], &c1, &beta, y, &incx);
-  
+  dgemv_(&no, &n, &n, &alpha, a[0], &n, x, &incx, &beta, y, &incx);
+  // dgemm_(&no, &no, &n, &one, &n, &alpha, &a[0][0], &n, x, &n, &beta, y, &n);
+  print_vector(y, n, "y");
   // Residual vector
   double r[n];
   for (int i = 0; i < n; i++) {
@@ -47,7 +49,6 @@ double residual(int n, double **a, double *x, double *b, int m)
        }
     }
       
-
     norm = max;
   } else {
     for (int i = 0; i < n; i++) 
@@ -61,15 +62,14 @@ double residual(int n, double **a, double *x, double *b, int m)
 void residual_with_input()
 {
   int n;
-
   // Reads matrix values
   std::cin >> n;
-  std::cout << "";
-
+  std::cout << "n: " << n << "\n";
+  
   double **a, **a_orig, b[n];
 
   // Initialize a 2d array as pointer
-  a = new double *[n];
+  a = new double *[n];  
   a_orig = new double *[n];
 
   for (int i = 0; i < n; i++)
@@ -78,7 +78,6 @@ void residual_with_input()
   for (int i = 0; i < n; i++)
     a_orig[i] = new double[n];
   
-
   double temp;
 
   // Read 2D array into a and a_orig for a a duplicate
@@ -96,34 +95,36 @@ void residual_with_input()
   // Last n of inputs is the b array.
   for (int i = 0; i < n; i++)
   {
-    std::cin >> b[i];
+    double temp;
+    std::cin >> temp;
+    b[i] = temp;
   }
 
   double x[n];
 
-  int c1 = n, ldb = n, pivot[n], info;
-  int nrhs = 1;
+  int p[n], info;
+  int rhs = 1;
 
   // Move b into x variable
   memcpy(x, b, n * sizeof(double));
 
-  print_matrix(a, n, "A");
+  // print_matrix(a, n, "A");
   
   // Solve the linear system
-  dgesv_(&n, &nrhs, &a[0][0], &n, pivot, x, &ldb, &info);
+  dgesv_(&n, &rhs, &a[0][0], &n, p, x, &n, &info);
 
-  print_vector(x, n, "x");
+  // print_vector(x, n, "x");
 
   // dgesv_ transforms the 'a' given to it, so I created a copy named 'a_orig'
   double norm0 = residual(n, a_orig, x, b, 0);
-  double norm1 = residual(n, a_orig, x, b, 1);
-  double norm2 = residual(n, a_orig, x, b, 2);
+  // double norm1 = residual(n, a_orig, x, b, 1);
+  // double norm2 = residual(n, a_orig, x, b, 2);
 
   std::cout << 
     "The norms are: \n" << 
-    "Infinite: " << norm0 << " " <<
-    "1: " << norm1 << " " <<
-    "2: " << norm2 << " " << "\n";
+    "Infinite: " << norm0 << " " ;
+    // "1: " << norm1 << " " <<
+    // "2: " << norm2 << " " << "\n";
 }
 
 int main()

@@ -1,6 +1,6 @@
 residual/build: residual.cpp
 	@echo "compiling..."
-	c++ -framework Accelerate -o residual residual.cpp utils.cpp
+	c++ -framework Accelerate -o residual -g residual.cpp utils.cpp
 residual/run: 
 	./residual
 residual/clean:
