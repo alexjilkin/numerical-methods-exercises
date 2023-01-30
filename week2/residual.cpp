@@ -6,21 +6,23 @@
 #include <Accelerate/Accelerate.h>
 #endif
 
+// To run it: 'cat ex2_p3/matrix6 | make residual/build residual/run'
+
 void print_vector(double *v, int n, std::string label);
 void print_matrix(double *a, int n, std::string label);
 
 // Returns the norm: ||Ax - b||_m
 double residual(int n, double *a, double *x, double *b, int m)
 {
-  int incx = 1;
+  int incx = 1, one = 1;
   char no = 'N';
   double alpha = 1.0, beta = 0;
-  int one = 1;
   double y[n];
  
   // Puts A * x into y
   dgemv_(&no, &n, &n, &alpha, a, &n, x, &incx, &beta, y, &incx);
   // print_vector(y, n, "y");
+
   // Residual vector
   double r[n];
   for (int i = 0; i < n; i++) {
@@ -42,6 +44,7 @@ double residual(int n, double *a, double *x, double *b, int m)
     }
       
     norm = max;
+  // Other norms
   } else {
     for (int i = 0; i < n; i++) {
       norm += pow(abs(r[i]), m);
@@ -53,6 +56,7 @@ double residual(int n, double *a, double *x, double *b, int m)
   return norm;
 }
 
+// Reads n, matrix and b from cin, solves the equation system Ax = b and then calls residual() with those
 void residual_with_input()
 {
   int n;

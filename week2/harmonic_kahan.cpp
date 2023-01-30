@@ -2,6 +2,8 @@
 #include <climits>
 #include <math.h>
 
+// To run it: 'make kahan/build kahan/run'
+// Returns the harmonic series upto N if kahan summation
 float harmonic_kahan(double N) {
   float s,x,y,t,e;
 
@@ -15,18 +17,6 @@ float harmonic_kahan(double N) {
     t = s + y;
     e = (t - s) - y;
 
-    if (i % 100000000 == 0) {
-       std::cout << i;
-       std::cout << "\n";
-
-       std::cout << e;
-       std::cout << "\n";
-       std::cout << y;
-       std::cout << "\n";
-
-       std::cout << s;
-       std::cout << "\n";
-    }
     s = t;
   }
 
@@ -34,6 +24,6 @@ float harmonic_kahan(double N) {
 }
 
 int main() {
-  std::cout << harmonic_kahan(1000000000000);
+  std::cout << harmonic_kahan(300000000);
   std::cout << "\n";
 }
