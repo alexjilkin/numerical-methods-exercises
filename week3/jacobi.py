@@ -3,6 +3,7 @@ from numpy import linalg as LA
 
 import math
 
+# Returns an array of eigenvalues of a N*N matrix Q
 def jacobi(Q, N):
   A_arr = [Q.copy()]
   iterations = 30
@@ -12,7 +13,7 @@ def jacobi(Q, N):
 
     for p in range(0, N - 1):
       for q in range(p + 1, N):
-        C = (B[p][p] - B[q][q]) / math.sqrt(math.pow(B[p][p] - B[q][q], 2) + (4 * B[p][q] * B[p][q]))
+        C = (B[p][p] - B[q][q]) / math.sqrt((B[p][p] - B[q][q])**2 + (4 * B[p][q] ** 2))
         c = np.sqrt((1 + C) / 2)
         s = np.sign(B[p][q]) * np.sqrt((1 - C) / 2)
 
@@ -29,12 +30,10 @@ def jacobi(Q, N):
   return np.diagonal(A_arr[iterations])
 
 mat = np.array([[1, 2, 3], [2, 3, -10], [3, -10, 3]])
-print(mat)
-
 print(jacobi(mat, len(mat)))
 
+# print eigen values from numpy's linalg
 w, v = LA.eig(mat)
-
 print(w)
   
   
