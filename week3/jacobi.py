@@ -5,14 +5,16 @@ import math
 
 def jacobi(Q, N):
   A_arr = [Q.copy()]
+  iterations = 30
 
-  for i in range(0, 10):
+  for i in range(0, iterations):
     B = A_arr[i]
+
     for p in range(0, N - 1):
       for q in range(p + 1, N):
-        C = (Q[p][p] - Q[q][q]) / math.sqrt(math.pow(Q[p][p] - Q[q][q], 2) + (4 * Q[p][q] * Q[p][q]))
+        C = (B[p][p] - B[q][q]) / math.sqrt(math.pow(B[p][p] - B[q][q], 2) + (4 * B[p][q] * B[p][q]))
         c = np.sqrt((1 + C) / 2)
-        s = np.sign(Q[p][q]) * np.sqrt((1 - C) / 2)
+        s = np.sign(B[p][q]) * np.sqrt((1 - C) / 2)
 
         Q_pq = np.identity(N);
         
@@ -24,13 +26,15 @@ def jacobi(Q, N):
         B = np.matmul(np.matmul(np.transpose(Q_pq), B), Q_pq)
 
     A_arr.append(B)
-  print(A_arr)
+  return np.diagonal(A_arr[iterations])
 
-mat = np.array([[5, 1, 4], [1, 2, 1], [4, 1, 6]])
+mat = np.array([[1, 2, 3], [2, 3, -10], [3, -10, 3]])
 print(mat)
 
-jacobi(mat, len(mat))
+print(jacobi(mat, len(mat)))
 
-print(LA.eig(mat))
+w, v = LA.eig(mat)
+
+print(w)
   
   
