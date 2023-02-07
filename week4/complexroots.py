@@ -8,7 +8,7 @@ def myroots(N, p):
   A = np.identity(N)
   print(p)
   for i in range(0, N):
-    A[0][i] = -(p[N - 1 - i] / p[N - i])
+    A[0][i] = -(p[i + 1] / p[0])
 
   print(A)
 
@@ -16,4 +16,4 @@ def myroots(N, p):
 
   print(w)
   
-myroots(3, [1, 2, 3, 3])
+myroots(2, [1, 6, 9])
