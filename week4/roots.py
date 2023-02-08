@@ -1,5 +1,5 @@
 import numpy as np
-import math
+import matplotlib.pyplot as plt
 
 tr_pi = (3 * np.pi)
 
@@ -31,11 +31,22 @@ def newton_f(x0):
 
   return newton_f(x_i)
 
-x = bisect_f(-0.5, 0.5)
+def plot(f):
+  x = np.linspace(-2, 2, 1000)
+  plt.plot(x, f(x))
+  
+  plt.xlabel("x")
+  plt.ylabel("f(x)")
+  plt.grid()
+  plt.show()
+
+plt.show()
+x = bisect_f(0, 1)
 print(x)
 print(f(x))
 
-x = newton_f(0.2)
+x = newton_f(0.3)
 print(x)
 print(f(x))
 
+plot(f)
