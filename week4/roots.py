@@ -6,6 +6,11 @@ tr_pi = (3 * np.pi)
 def f(x):
   return np.sin((tr_pi * x**3) / (x**2 - 1)) + 1/2
 
+def g(x, B):
+  return x + np.exp((-B) * x**2) * np.cos(x)
+def g_prime(x, B):
+  return 1 + np.exp((-B) * x**2) * ((-2* B * x)* np.cos(x) - np.sin(x))
+
 def f_prime(x):
   return (tr_pi * np.cos((tr_pi * x**3) / (x**2 - 1)) * (x**4 - 3*(x**2))) / ((x**2 - 1)* (x**2 - 1))
 
@@ -31,6 +36,14 @@ def newton_f(x0):
 
   return newton_f(x_i)
 
+def newton_g(x0, B):
+  x_i = x0 - (g(x0, B) / g_prime(x0, B))
+  
+  if (np.abs(g(x_i,B)) < tol):
+    return x_i
+
+  return newton_g(x_i, B)
+
 def plot(f):
   x = np.linspace(-2, 2, 1000)
   plt.plot(x, f(x))
@@ -40,13 +53,16 @@ def plot(f):
   plt.grid()
   plt.show()
 
-plt.show()
-x = bisect_f(0, 1)
-print(x)
-print(f(x))
+# x = bisect_f(0, 1)
+# print(x)
+# print(f(x))
 
-x = newton_f(0.3)
-print(x)
-print(f(x))
+# x = newton_f(0.3)
+# print(x)
+# print(f(x))
 
-plot(f)
+# plot(f)
+
+x = newton_g(2, 0.1)
+print(x)
+plot(lambda x: g(x, 0.1))
