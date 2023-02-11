@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time 
 
 tr_pi = (3 * np.pi)
 
@@ -53,16 +54,22 @@ def plot(f):
   plt.grid()
   plt.show()
 
-# x = bisect_f(0, 1)
-# print(x)
-# print(f(x))
+# Runs both root finding functions are calculates the time it takes
+def test_both():
+  st = time.time()
+  x = bisect_f(0, 1)
+  bisect_et = time.time()
+  print("The bisection root is: {}, which evaluates f(x)={} \n it took it {}s to evaluate".format(x, f(x), bisect_et - st))
 
-# x = newton_f(0.3)
-# print(x)
-# print(f(x))
+  st = time.time()
+  x = newton_f(0.3)
+  newton_et = time.time()
+  print("The newton root is: {}, which evaluates f(x)={} \n it took it {}s to evaluate".format(x, f(x), newton_et - st))
 
+
+test_both()
 # plot(f)
 
-x = newton_g(2, 0.1)
-print(x)
-plot(lambda x: g(x, 0.1))
+# x = newton_g(2, 0.1)
+# print(x)
+# plot(lambda x: g(x, 0.1))

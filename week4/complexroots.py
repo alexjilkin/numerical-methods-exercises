@@ -14,7 +14,6 @@ def myroots(N, p):
   for i in range(1, N):
     A[i].append(0)
 
-  print(A)
   w, v = LA.eig(A)
 
   return w
@@ -25,5 +24,5 @@ for p in polynomials:
   roots = myroots(len(p) - 1, p)
   np_roots = np.roots(p)
 
-  print ("for p={} \n myroots(p)={} \n np.roots(p)={}".format(p, roots, np_roots))
+  print ("For p={} \n myroots(p)={} \n np.roots(p)={}".format(p, roots, np_roots))
 
