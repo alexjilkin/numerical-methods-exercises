@@ -4,9 +4,9 @@ import time
 
 tr_pi = (3 * np.pi)
 
+# f and g functions and their derivatives (prime) from the exercise
 def f(x):
   return np.sin((tr_pi * x**3) / (x**2 - 1)) + 1/2
-
 def g(x, B):
   return x + np.exp((-B) * x**2) * np.cos(x)
 def g_prime(x, B):
@@ -17,6 +17,7 @@ def f_prime(x):
 
 tol = 0.00001
 
+# Finds root of f using the bisection method
 def bisect_f(a, b):
   if (b - a <= tol):
     return a
@@ -29,6 +30,7 @@ def bisect_f(a, b):
   f_a = f(a)
   return bisect_f(a, m) if f_m * f_a < 0 else bisect_f(m, b)
 
+# Finds root of f using Newton's method
 def newton_f(x0):
   x_i = x0 - (f(x0) / f_prime(x0))
   
@@ -37,6 +39,7 @@ def newton_f(x0):
 
   return newton_f(x_i)
 
+# Finds root of g using newton's method
 def newton_g(x0, B):
   x_i = x0 - (g(x0, B) / g_prime(x0, B))
   
@@ -45,6 +48,7 @@ def newton_g(x0, B):
 
   return newton_g(x_i, B)
 
+# Plots the given function as argument
 def plot(f):
   x = np.linspace(-2, 2, 1000)
   plt.plot(x, f(x))
@@ -67,9 +71,15 @@ def test_both():
   print("The newton root is: {}, which evaluates f(x)={} \n it took it {}s to evaluate".format(x, f(x), newton_et - st))
 
 
-test_both()
-# plot(f)
+# Prints a test for g(x)
+def test_g(B):
+  x = newton_g(-0.1, B)
+  print(x)
+  print(g(x,B))
+  print("The newton root is: {}, which evaluates g(x)={} \n ".format(x, f(x)))
+  plot(lambda x: g(x, B))
 
-# x = newton_g(2, 0.1)
-# print(x)
-# plot(lambda x: g(x, 0.1))
+
+#test_both()
+# plot(f)
+# test_g(100)
