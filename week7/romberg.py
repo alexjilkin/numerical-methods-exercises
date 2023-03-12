@@ -28,6 +28,6 @@ def romberg(f, a, b, n):
   return R
 
 n = 5
-print("Expected reuslt scipy.integrate.quad I_e={}".format(quad(f_a, 0, 1)[0]))
+print("Expected result scipy.integrate.quad I_e={}".format(quad(f_a, 0, 1)[0]))
 print("Romberg integration (a) I_a={}", romberg(f_a, 0, 1, n)[n][n])
 print("Romberg integration (b) I_b={}", romberg(f_b, 0, 1, n)[n][n] + 2/3)
