@@ -2,8 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 
-def f(x):
+def f_a(x):
   return np.sin(np.sqrt(x))
+def f_b(x):
+  return np.sin(np.sqrt(x)) - np.sqrt(x)
 
 def romberg(f, a, b, n):
   R = np.zeros((n + 1, n + 1))
@@ -25,5 +27,7 @@ def romberg(f, a, b, n):
       R[i][j] = R[i][j-1] + (R[i][j-1] - R[i-1][j-1]) / (np.power(4.0, j) - 1.0)
   return R
 
-print("Expected reuslt I_e={}".format(quad(f, 0, 1)))
-print("Romberg integration I_r={}", romberg(f, 0, 1, 5))
+n = 5
+print("Expected reuslt scipy.integrate.quad I_e={}".format(quad(f_a, 0, 1)[0]))
+print("Romberg integration (a) I_a={}", romberg(f_a, 0, 1, n)[n][n])
+print("Romberg integration (b) I_b={}", romberg(f_b, 0, 1, n)[n][n] + 2/3)
