@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from scipy.special.orthogonal import roots_laguerre
 
@@ -41,8 +40,8 @@ def f_integral_gauss_laguerre(n):
 eps = 10e-5
 
 print("Expected result using scipy I={}".format(quad(f, 0, 10e+3)))
-print("Simpons and truncating I={}".format(simpson(f, 0, 20, eps , 0, 10)))
-print("Simpons and substituion I={}".format(simpson(f_sub, 0, 1 - eps, eps, 0, 10)))
+print("Simpson's and truncating I={}".format(simpson(f, 0, 20, eps , 0, 10)))
+print("Simpson's and substitution I={}".format(simpson(f_sub, 0, 1 - eps, eps, 0, 10)))
 print("Gauss Laguerre n=2 I={}".format(f_integral_gauss_laguerre(2)))
 print("Gauss Laguerre n=4 I={}".format(f_integral_gauss_laguerre(4)))
 print("Gauss Laguerre n=8 I={}".format(f_integral_gauss_laguerre(8)))
