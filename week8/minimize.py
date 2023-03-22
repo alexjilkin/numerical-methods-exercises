@@ -2,7 +2,6 @@ import numpy as np
 from scipy.special import erfc
 from scipy.optimize import minimize as sp_minimize, fmin_powell
 import time
-
 import matplotlib.pyplot as plt
 
 def f(args):
@@ -37,9 +36,10 @@ def minimize_with_perf(*argv):
   
   return (res, et - st)
 
+# Plots a 3d graph of f
 def plot_f():
-  x = np.linspace(-10, 10, 100)
-  y = np.linspace(-10, 10, 100)
+  x = np.linspace(-0.2, 0.2, 1000)
+  y = np.linspace(-0.2, 0.2, 1000)
   X, Y = np.meshgrid(x, y)
 
   # Evaluate the function over the meshgrid
