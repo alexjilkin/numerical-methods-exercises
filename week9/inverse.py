@@ -18,10 +18,15 @@ nums_e = [e_inv(random.uniform(0, 1)) for _ in range(10**6)]
 nums_lor = [lor_inv(random.uniform(0, 1)) for _ in range(10**6)]
 
 M = 1000
-plt.hist([x for x in nums_lor if x> -100 and x < 100], bins = M, density=True)
-x = np.linspace(-10, 10, M)
-plt.plot(x, lor(x))
 
-# plt.plot(x, e(x))
-# plt.hist(nums_lor, bins = 1000)
+# Exponential
+plt.hist(nums_e, bins = 1000, density=True)
+x = np.linspace(0, 10, M)
+plt.plot(x, e(x))
+
+# Lorentz
+# plt.hist([x for x in nums_lor if x> -50 and x < 50], bins = M, density=True)
+# x = np.linspace(-50, 50, M)
+# plt.plot(x, lor(x))
+
 plt.show()
