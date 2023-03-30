@@ -67,8 +67,10 @@ samples = {
 for place, n in simulations:
   samples[place].append(n)
 
-y = np.sort(samples["Bar"])
-plt.scatter(np.arange(len(y)), y)
+# y = np.sort(samples["Bar"])
+# plt.scatter(np.arange(len(y)), y)
+
+plt.hist(samples["Pena"], density=True)
 
 plt.show()
 
