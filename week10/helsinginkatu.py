@@ -9,7 +9,7 @@ d2 = 252
 db = 2048
 dl = 512
 
-p_step = 0.05
+p_step = 0.01
 
 def flip(p):
     return True if random.random() < p else False
@@ -30,6 +30,8 @@ def is_at_tank(x, n):
 def is_at_kurvi(x, n):
   return x == 1154
 
+# Returns a tuple of (end place, number of steps)
+# with endplace can be one of Pena, Home, Bar, Tank
 def simulate():
   end = False
   x = 0
@@ -69,10 +71,20 @@ for place, n in simulations:
 
 # y = np.sort(samples["Bar"])
 # plt.scatter(np.arange(len(y)), y)
-
-plt.hist(samples["Pena"], density=True)
-
+plt.bar(list(samples.keys()), [np.sum(sample) for sample in samples.values()])
 plt.show()
+
+# plt.hist(samples["Pena"], density=True, bins='auto', label="Pena")
+# plt.legend()
+# plt.show()
+
+# plt.hist(samples["Home"], density=True, bins='auto', label="Home")
+# plt.legend()
+# plt.show()
+
+# plt.hist(samples["Bar"], density=True, bins='auto', label="Bar")
+# plt.legend()
+# plt.show()
 
 
 
