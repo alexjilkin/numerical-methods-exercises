@@ -5,6 +5,18 @@ import random
 
 Ks = [3, 10, 30, 100]
 
+# Returns a random number distributed exponentially
+def rand_exp(gamma):
+  return -(1 / gamma) * np.log(1 - np.random.random())
+
+# Return a lorenz distributed number only in the (-30, 30) range
+def rand_lorentz():
+  x = np.tan(np.pi * (np.random.random() - 0.5))
+  if (np.abs(x) > 30):
+    return rand_lorentz()
+  
+  return x
+
 # Plots an histogram of z values
 # rand: a function returning random number
 def plot_z(rand):
@@ -30,13 +42,17 @@ plt.legend()
 plt.show()
 
 # Exp distribution
-plot_z(lambda: np.random.exponential())
-plot_norm(1, 1, 0, 3)
+plot_z(lambda: rand_exp(1))
+plot_norm(1, 0.8, 0, 3)
 plt.legend()
 plt.show()
 
-# Exp distribution
-plot_z(lambda: np.random.standard_cauchy())
-plot_norm(1, 1, 0, 3)
+# Lorentz distribution
+plot_z(rand_lorentz)
+# plot_norm(1, 1, 0, 3)
 plt.legend()
 plt.show()
+
+# plt.hist([rand_lorentz() for _ in range(10000)], density=True, bins='auto')
+
+# plt.show()

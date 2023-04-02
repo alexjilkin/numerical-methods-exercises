@@ -56,37 +56,23 @@ def simulate():
     elif (is_at_tank(x, n)):
       return ("Tank", n)
 
-simulations = [simulate() for _ in range(3650)]
+simulations = [simulate() for _ in range(365)]
 print(Counter([place for place, n in simulations]))
 
-samples = {
-  "Pena": [],
-  "Home": [],
-  "Bar": [],
-  "Tank": []
-}
+max_step = np.max([n for _, n in simulations]) + 1
 
+places = ["Pena", "Home", "Bar", "Tank"]
+samples = {}
+
+for place in places:
+  samples[place] = np.zeros(max_step)
+
+# Transform to an array based on stems
 for place, n in simulations:
-  samples[place].append(n)
+  samples[place][n] += 1
 
-# y = np.sort(samples["Bar"])
-# plt.scatter(np.arange(len(y)), y)
-plt.bar(list(samples.keys()), [np.sum(sample) for sample in samples.values()])
+for place in places:
+  plt.scatter(np.arange(max_step), np.cumsum(samples[place]), s=1, label=place)
+
+plt.legend()
 plt.show()
-
-# plt.hist(samples["Pena"], density=True, bins='auto', label="Pena")
-# plt.legend()
-# plt.show()
-
-# plt.hist(samples["Home"], density=True, bins='auto', label="Home")
-# plt.legend()
-# plt.show()
-
-# plt.hist(samples["Bar"], density=True, bins='auto', label="Bar")
-# plt.legend()
-# plt.show()
-
-
-
-
-
