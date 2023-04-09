@@ -28,12 +28,12 @@ def runge_kutta_solver(a, b, N, y0, yp0):
     l3 = h * g(t[i] + h/2, y[i] + k2/2, u[i] + l2/2)
     k4 = h * f(t[i] + h, y[i] + k3, u[i] + l3)
     l4 = h * g(t[i] + h, y[i] + k3, u[i] + l3)
-    y[i+1] = y[i] + (k1 + 2*k2 + 2*k3 + k4)* h /6
-    u[i+1] = u[i] + (l1 + 2*l2 + 2*l3 + l4) * h /6
+    y[i+1] = y[i] + (k1 + 2*k2 + 2*k3 + k4) / 6
+    u[i+1] = u[i] + (l1 + 2*l2 + 2*l3 + l4)  /6
 
   return t, y
 
-t, y = runge_kutta_solver(0, 10, 30, 1, 0)
+t, y = runge_kutta_solver(0, 10, 100, 1, 0)
 print(t, y)
 plt.plot(t, y)
 plt.show()
