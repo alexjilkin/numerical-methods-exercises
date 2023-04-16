@@ -18,7 +18,7 @@ def solve_psi(n, v0):
 
     for i in range(1, n-1):
         D[i, i-1] = 1
-        D[i, i] = -2 + (v0 * h**2 * (2*i*h - (i*h)**2))
+        D[i, i] = -2 - (v0 * 2 * h**2 * i*h*(2 - (i*h)))
         D[i, i+1] = 1
 
     D /= (-2 * (h ** 2))
