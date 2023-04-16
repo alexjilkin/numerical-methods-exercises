@@ -34,13 +34,18 @@ def runge_kutta_solver(a, b, N, y0, yp0):
   return t, y
 
 def plot():
-    t, y = runge_kutta_solver(0, 10, 100, 1, 0)
-    print(t, y)
-    plt.plot(t, y, ":", label="RK4")
+    Ns = [10 ,30, 100, 300]
+
+    for N in Ns:
+      t, y = runge_kutta_solver(0, 10, N, 1, 0)
+      print(t, y)
+      plt.plot(t, y, ":", label="RK4 N={}".format(N))
+
     x = np.linspace(0, 10)
     plt.plot(x, np.cos(x), alpha=0.5, label="analytical cos(x)")
     plt.legend()
+    plt.xlabel("x")
+    plt.ylabel("y")
     plt.show()
 
-
-plot()
+# plot()
