@@ -50,12 +50,12 @@ def pert_E(n, v0):
     # Solves integral
     return E0 + (np.trapz(nominator(psi0), dx=2/n) / np.trapz(denominator(psi0), dx=2/n))
 
-n = 1000
+n = 1500
 
 v0s = [1, 10, 30]
 for v0 in v0s:
     E, psi = solve_psi(n, v0)
     print(f"V0={v0}, E0={E[0]}")
-    print(pert_E(n, v0))
+    print(f"expected E0={pert_E(n, v0)}")
 
 
