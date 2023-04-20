@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import optimize
-
 from numpy import linalg as LA
+
+# This code solves y'' = -2ey differential equation using the 3-point finite difference stencil ##
 
 n = 500
 h = 2 / (n - 1)
@@ -21,6 +21,7 @@ for i in range(1, n-1):
 
 D /= (-2 * (h ** 2))
 
+# Get the eigen values and vectors which are the energy states of the system
 E, psi = LA.eig(D)
 
 # Sort
@@ -29,9 +30,11 @@ E = E[i]
 psi = psi[:, i]
 
 x = np.linspace(-1, 1, n)   
+
 # Take by columns and plot first 5
 for i in range(0, 5):
     plt.plot(x, psi[:,i], label=f"E{i}={E[i]:.4f}")
+    
 plt.legend()
 plt.show()
 

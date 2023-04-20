@@ -4,7 +4,7 @@ from scipy import optimize
 
 from numpy import linalg as LA
 
-
+# Solves the differential equation using the 3-points  finite difference stencil
 def solve_psi(n, v0):
     h = 2 / (n - 1)
 
@@ -12,7 +12,6 @@ def solve_psi(n, v0):
     D = np.zeros((n, n))
     D[0, 0] = -2
     D[1, 2] = 1
-
     D[n-1, n-1] = -2
     D[n-1, n-2] = 1
 
@@ -23,6 +22,7 @@ def solve_psi(n, v0):
 
     D /= (-2 * (h ** 2))
 
+    # Get the eigen values which are the energy states
     E, psi = LA.eig(D)
 
     # Sort
@@ -52,10 +52,12 @@ def pert_E(n, v0):
 
 n = 1500
 
+# Prints the results for given potentials
 v0s = [1, 10, 30]
 for v0 in v0s:
     E, psi = solve_psi(n, v0)
     print(f"V0={v0}, E0={E[0]}")
-    print(f"expected E0={pert_E(n, v0)}")
+    E_per = pert_E(n, v0)
+    print(f"expected E0={E_per}, dE0={E_per - E[0]}")
 
 

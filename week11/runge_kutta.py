@@ -33,6 +33,7 @@ def runge_kutta_solver(a, b, N, y0, yp0):
 
   return t, y
 
+# Plot the solution for different count of N
 def plot():
     Ns = [10 ,30, 100, 300]
 
@@ -48,4 +49,5 @@ def plot():
     plt.ylabel("y")
     plt.show()
 
+# Uncomment to make the code run
 # plot()
