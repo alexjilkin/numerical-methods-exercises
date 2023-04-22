@@ -1,6 +1,5 @@
 import numpy as np
 from scipy.fft import fft, fftfreq
-from scipy.signal import stft
 import matplotlib.pyplot as plt
 
 with open('./samples/sample1.dat') as f:
