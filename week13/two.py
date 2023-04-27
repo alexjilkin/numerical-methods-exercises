@@ -14,6 +14,7 @@ def X_reg(j, xi):
 def X_leg(j, xi):
     return legendre(j)((2 * xi) / 4)
 
+# Fits a polynomial with the given X(j) base function
 def fit(X):
     ns = [5, 10, 15, 20, 25]
 
