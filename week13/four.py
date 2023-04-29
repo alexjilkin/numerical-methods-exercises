@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import least_squares
 
 # Reads from the file and creats a matrix with two columns
-fileName = "ex13p4_d3.dat"
+fileName = "ex13p4_d1.dat"
 with open(f"./data/{fileName}") as f:
     lines = f.readlines()
 
@@ -20,7 +20,7 @@ def obj_func(args):
     return func(samples[:, 0], args) - samples[:, 1]
 
 # Gets the result by least squares method
-args0 = [100, 100]
+args0 = [10, 100]
 res = least_squares(obj_func, args0, method='lm')
 
 if (res.success != True):
