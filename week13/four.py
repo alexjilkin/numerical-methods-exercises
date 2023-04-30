@@ -20,7 +20,7 @@ def obj_func(args):
     return func(samples[:, 0], args) - samples[:, 1]
 
 # Gets the result by least squares method
-args0 = [10, 100]
+args0 = [1, 100]
 res = least_squares(obj_func, args0, method='lm')
 
 if (res.success != True):
