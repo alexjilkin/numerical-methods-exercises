@@ -1,15 +1,35 @@
-from sympy import *
-init_printing()
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.constants import epsilon_0
+from scipy.optimize import root
 
-Kx, Ln = symbols('Kx, Ln', constant=True)
-w, Ky, g = symbols('w, Ky, g')
+alpha = np.array([0.1818, 0.5099, 0.2802, 0.02817])
+beta = np.array([3.2, 0.9423, 0.4028, 0.2016])
 
-Kx = 2
-Ln = 2
+def phi(x):
+    return np.sum(alpha + np.exp(-beta*x))
 
-sol = solve((-w - I) * (-w - (I / (Kx**2 + Ky**2))) - ((I - g*Ky) / (Kx**2 + Ky**2))*(I + (Ky/Ln)), w)
+def a_u(Z1, Z2):
+    return (0.46848) / (Z1 ** 0.23 + Z2 ** 0.23)
 
-pprint(sol)
-func = lambdify([g, Ky], sol)
+def V(r, Z1, Z2):
+    return ((Z1 * Z2) / (4 * np.pi * epsilon_0 * r)) * phi(r / a_u(Z1, Z2))
 
-print(func(1, 2))
+def g(r, Z1, Z2, Ecom, b):
+    return np.sqrt(1 - ((b / r) ** 2) - (V(r, Z1, Z2) / Ecom))
+
+def get_rmin(Z1, Z2, Ecom, b):
+    return root(lambda r: g(r, Z1, Z2, Ecom, b), 4)
+
+Z1 = 1
+Z2 = 14
+
+M1 = 1.008 
+M2 = 27.9769
+Elab = 5
+Ecom = (M2 / (M1 + M2)) * Elab
+
+b = 10 ** -20
+
+rmin = get_rmin(Z1, Z2, Ecom, b)
+print(rmin)
