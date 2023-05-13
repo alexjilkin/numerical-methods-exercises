@@ -37,7 +37,7 @@ def get_rmin(Z1, Z2, Ecom, b):
         return [g(r, Z1, Z2, Ecom, b)]
     
     res = root(eq, b)
-    return res.x
+    return res.x[0]
 
 # r  = np.linspace(b* 0.1, 10e2 * b, 10000)
 # fig, ax = plt.subplots()
