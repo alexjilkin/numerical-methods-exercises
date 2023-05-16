@@ -22,14 +22,16 @@ def V(r, Z1, Z2):
 def g(r, Z1, Z2, Ecom, b):
     return (1 - ((b / r) ** 2) - (V(r, Z1, Z2) / Ecom))
 
-M1 = 1.008 
-M2 = 28.085 
-
-Elab = 20
+# 
+# 
 def Ecom(Elab):
+    """Calculates Ecom from Elab and transforms to Joules from eV
+    :Elab: Lab energy in eV
+    :return: Center of mass energy in Joules
+    """
     return (M2 / (M1 + M2)) * Elab * 1.60218e-19
 
-b = 5e-12
+
 
 def get_rmin(Z1, Z2, Ecom, b):
     def eq(args):
@@ -37,15 +39,27 @@ def get_rmin(Z1, Z2, Ecom, b):
         return [g(r, Z1, Z2, Ecom, b)]
     
     res = root(eq, b)
+    print(res)
     return res.x[0]
 
-# r  = np.linspace(b* 0.1, 10e2 * b, 10000)
-# fig, ax = plt.subplots()
 
-# ax.plot(r, g(r, Z1, Z2, Ecom, b), label=f"b={b}, r=[0, {r.max()}], Elab={Elab}")
+Z1 = 1
+Z2 = 14
 
-# ax.set_xscale('log')
-# plt.xlabel('r')
-# plt.ylabel('g(r)')
-# plt.legend()
-# plt.show()
+
+M1 = 1.008 
+M2 = 28.085 
+
+b = 1e-10
+Elab = 200000000000
+
+r  = np.linspace(b* 0.1, 10e2 * b, 10000)
+fig, ax = plt.subplots()
+
+ax.plot(r, g(r, Z1, Z2, Ecom(Elab), b), label=f"b={b}, r=[0, {r.max()}], Elab={Elab}, rmin={get_rmin(Z1, Z2, Ecom(Elab), b)}")
+
+ax.set_xscale('log')
+plt.xlabel('r')
+plt.ylabel('g(r)')
+plt.legend()
+plt.show()
