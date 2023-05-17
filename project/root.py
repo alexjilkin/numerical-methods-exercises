@@ -11,28 +11,30 @@ def phi(x):
     for i in range(4):
         sum += alpha[i] * np.exp(-beta[i]*x)
 
-    return sum * 6.242e+18
+    return sum
 
 def a_u(Z1, Z2):
     # Converts angstroms to cm
     return 0.46848e-8 / ((Z1 ** 0.23) + (Z2 ** 0.23))
 
 def V(r, Z1, Z2):
-    return ((Z1 * Z2 * (elementary_charge ** 2)) / (4 * np.pi * epsilon_0 * r)) * phi(r / a_u(Z1, Z2))
+    res = ((Z1 * Z2 * (elementary_charge ** 2)) / (4 * np.pi * epsilon_0 * r)) * phi(r / a_u(Z1, Z2))
+
+    return res * 6.242e+18
 
 def g(r, Z1, Z2, Ecom, b):
     return (1 - ((b / r) ** 2) - (V(r, Z1, Z2) / Ecom))
 
 # 
 # 
-def Ecom(Elab):
+def Ecom(Elab, M1, M2):
     """Calculates Ecom from Elab and transforms to Joules from eV
     :Elab: Lab energy in eV
+    :M1: Atomic mass of projectile
+    :M2: Atomic mass of target
     :return: Center of mass energy in Joules
     """
     return (M2 / (M1 + M2)) * Elab
-
-
 
 def get_rmin(Z1, Z2, Ecom, b):
     def eq(args):
@@ -42,23 +44,23 @@ def get_rmin(Z1, Z2, Ecom, b):
     res = root(eq, b)
     return res.x[0]
 
-Z1 = 1
-Z2 = 14
+def plot():
+    Z1 = 1
+    Z2 = 14
+    M1 = 1.008 
+    M2 = 28.085 
+    b = 1e-12
+    Elab = 2
 
+    r  = np.linspace(b* 0.1, 10e2 * b, 10000)
+    fig, ax = plt.subplots()
 
-M1 = 1.008 
-M2 = 28.085 
+    ax.plot(r, g(r, Z1, Z2, Ecom(Elab, M1, M2), b), label=f"b={b}, r=[0, {r.max()}], Elab={Elab}, rmin={get_rmin(Z1, Z2, Ecom(Elab, M1, M2), b)}")
 
-b = 1e-16
-Elab = 2
+    ax.set_xscale('log')
+    plt.xlabel('r')
+    plt.ylabel('g(r)')
+    plt.legend()
+    plt.show()
 
-# r  = np.linspace(b* 0.1, 10e2 * b, 10000)
-# fig, ax = plt.subplots()
-
-# ax.plot(r, g(r, Z1, Z2, Ecom(Elab), b), label=f"b={b}, r=[0, {r.max()}], Elab={Elab}, rmin={get_rmin(Z1, Z2, Ecom(Elab), b)}")
-
-# ax.set_xscale('log')
-# plt.xlabel('r')
-# plt.ylabel('g(r)')
-# plt.legend()
-# plt.show()
+# plot()

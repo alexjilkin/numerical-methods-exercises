@@ -15,16 +15,20 @@ def sn(e):
     
 Z1 = 1
 Z2 = 14
-
-M1 = 1.008 
+M1 = 1.007825  
 M2 = 28.085 
 
-Elabs = np.logspace(1, 6)
+# Z1 = 14
+# M1 = 1.007825  
+
+# Z2 = 79
+# M2 = 197
+
+Elabs = np.logspace(0, 6, 1000)
 
 Sns = []
 for Elab in Elabs:
     Sns.append(Sn(Z1, Z2, M1, M2, Elab / 1000) * 1.60218e-19 / (100 **2))
 
-print(Sns)
-plt.scatter(Elabs, Sns)
+plt.loglog(Elabs, Sns)
 plt.show()
