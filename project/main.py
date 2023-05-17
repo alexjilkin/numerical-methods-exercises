@@ -22,7 +22,7 @@ def F(u, b, rmin, Ecom, Z1, Z2):
 def theta(b, Ecom, Z1, Z2):
     rmin = get_rmin(Z1, Z2, Ecom, b)
     # print(f"{rmin}, {b}, {Ecom}")
-    u = np.linspace(eps, 1 - eps, 200)
+    u = np.linspace(eps, 1 - eps, 300)
     y = [F(u, b, rmin, Ecom, Z1, Z2) for u in u]
     return np.pi - 4 * b * simpson(y, u)
 
@@ -32,13 +32,13 @@ def Sn(Elab, Z1, Z2):
     def integ(b):
         return (np.sin(theta(b, E, Z1, Z2) / 2)**2) * b
     
-    b = np.linspace(eps, 10e-7, 500)
+    b = np.linspace(eps, 10e-7, 600)
     y = [integ(b) for b in b]
     return 2 * np.pi * gamma * Elab * simpson(y, b)
 
 gamma = (4*M1*M2) / (M1 + M2)**2
 
-Elabs = np.logspace(eps, 6, 100)
+Elabs = np.logspace(eps, 6, 200)
 Sns = []
 for Elab in Elabs:
     Sns.append(Sn(Elab, Z1, Z2))

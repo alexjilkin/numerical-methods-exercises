@@ -28,7 +28,7 @@ Elabs = np.logspace(0, 6, 1000)
 
 Sns = []
 for Elab in Elabs:
-    Sns.append(Sn(Z1, Z2, M1, M2, Elab / 1000) * 1.60218e-19 / (100 **2))
+    Sns.append(Sn(Z1, Z2, M1, M2, Elab / 1000))
 
 plt.loglog(Elabs, Sns)
 plt.show()
