@@ -26,5 +26,5 @@ for Elab in Elabs:
     Sns.append(Sn(Z1, Z2, M1, M2, Elab / 1000) * 1.60218e-19 / (100 **2))
 
 print(Sns)
-plt.plot(Elabs, Sns)
+plt.scatter(Elabs, Sns)
 plt.show()
