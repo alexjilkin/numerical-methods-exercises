@@ -1,10 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.constants import epsilon_0, elementary_charge
+from scipy import constants
 from scipy.optimize import root
 
 alpha = np.array([0.1818, 0.5099, 0.2802, 0.02817])
 beta = np.array([3.2, 0.9423, 0.4028, 0.2016])
+
+# Convert m^-2 to cm^-2
+eps_0 = constants.epsilon_0 * (10**-4)
+e = constants.elementary_charge
 
 def phi(x):
     sum = 0
@@ -33,7 +37,7 @@ def au(Z1, Z2):
     return res
 
 def V(r, Z1, Z2):
-    res = ((Z1 * Z2 * (elementary_charge ** 2)) / (4 * np.pi * epsilon_0 * r)) * phi(r / au(Z1, Z2))
+    res = ((Z1 * Z2 * (e ** 2)) / (4 * np.pi * eps_0 * r)) * phi(r / au(Z1, Z2))
 
     # Converts to eV from Joules
     return res * 6.242e+18
@@ -65,7 +69,7 @@ def plot():
     Z2 = 14
     M1 = 1.008 
     M2 = 28.085 
-    b = 1e-12
+    b = 1e-10
     Elab = 2
 
     r  = np.linspace(b* 0.1, 10e2 * b, 10000)
@@ -79,4 +83,4 @@ def plot():
     plt.legend()
     plt.show()
 
-# plot()
+plot()
