@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from root import get_rmin, Ecom, g, V
-from scipy.integrate import simpson
+from root import get_rmin, Ecom, V
 
 import sys
 eps = sys.float_info.epsilon

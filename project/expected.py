@@ -12,22 +12,28 @@ def sn(e):
         return np.log(1 + 1.138*e) / (2 * (e + 0.01321*e**0.21226 + 0.19593*e**0.5))
     else:
         return np.log(e) / (2*e)
-    
+
+# 1H to 28Si    
 Z1 = 1
-Z2 = 14
 M1 = 1.007825  
+
+Z2 = 14
 M2 = 28.085 
 
-# Z1 = 14
-# M1 = 1.007825  
-# Z2 = 79
-# M2 = 197
+# 1H to 28Si    
+Z1, M1 = 1, 1.007825  
+Z2, M2 = 14, 28.085 
 
-Elabs = np.logspace(0, 6, 1000)
+# # 28Si to 197Au
+# Z1, M1  = 14, 1.007825
+# Z2, M2 = 79, 196.966570 
+
+Elab = np.logspace(np.log10(5), np.log10(5e6), 300)
 
 Sns = []
-for Elab in Elabs:
-    Sns.append(Sn(Z1, Z2, M1, M2, Elab / 1000))
+for E in Elab:
+    # TODO: bad results?
+    Sns.append(Sn(Z1, Z2, M1, M2, E / 1000))
 
-plt.loglog(Elabs, Sns)
+plt.loglog(Elab, Sns)
 plt.show()
