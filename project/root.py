@@ -13,13 +13,29 @@ def phi(x):
 
     return sum
 
-def a_u(Z1, Z2):
+au_dict = {}
+
+def au(Z1, Z2):
+    """Calculates the screening length of Z1 and Z2 atomic numbers
+    memoizes the result with Z1-Z2 as key
+    :Z1: Atomic number of projectile
+    :Z2: Atomic number of target
+    :return: Center of mass energy in Joules
+    """
+    key = f"{Z1}-{Z2}"
+    if (key in au_dict):
+        return au_dict[key]
+    
     # Converts angstroms to cm
-    return 0.46848e-8 / ((Z1 ** 0.23) + (Z2 ** 0.23))
+    res = 0.46848e-8 / ((Z1 ** 0.23) + (Z2 ** 0.23))
+    au_dict[key] = res
+    
+    return res
 
 def V(r, Z1, Z2):
-    res = ((Z1 * Z2 * (elementary_charge ** 2)) / (4 * np.pi * epsilon_0 * r)) * phi(r / a_u(Z1, Z2))
+    res = ((Z1 * Z2 * (elementary_charge ** 2)) / (4 * np.pi * epsilon_0 * r)) * phi(r / au(Z1, Z2))
 
+    # Converts to eV from Joules
     return res * 6.242e+18
 
 def g(r, Z1, Z2, Ecom, b):
