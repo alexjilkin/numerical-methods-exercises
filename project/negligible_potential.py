@@ -15,11 +15,11 @@ Elab = 20
 M1 = 1.008 
 M2 = 28.085 
 
-bs = np.linspace(eps, 10e-13, 10000)
+bs = np.linspace(eps, 10e-8, 10000)
 
 Vs = []
 for b in bs:
-    rmin = get_rmin(Z1, Z2, Ecom(Elab), b)
+    rmin = get_rmin(Z1, Z2, Ecom(Elab, M1, M2), b)
     Vs.append(V(rmin, Z1, Z2))
 
 plt.xlabel('b')

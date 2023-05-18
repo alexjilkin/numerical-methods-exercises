@@ -83,4 +83,4 @@ def plot():
     plt.legend()
     plt.show()
 
-plot()
+# plot()
