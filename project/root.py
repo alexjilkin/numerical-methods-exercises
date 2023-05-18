@@ -45,8 +45,6 @@ def V(r, Z1, Z2):
 def g(r, Z1, Z2, Ecom, b):
     return (1 - ((b / r) ** 2) - (V(r, Z1, Z2) / Ecom))
 
-# 
-# 
 def Ecom(Elab, M1, M2):
     """Calculates Ecom from Elab and transforms to Joules from eV
     :Elab: Lab energy in eV
@@ -57,9 +55,8 @@ def Ecom(Elab, M1, M2):
     return (M2 / (M1 + M2)) * Elab
 
 def get_rmin(Z1, Z2, Ecom, b):
-    def eq(args):
-        r = args[0]
-        return [g(r, Z1, Z2, Ecom, b)]
+    def eq(r):
+        return g(r, Z1, Z2, Ecom, b)
     
     res = root(eq, b)
     return res.x[0]

@@ -36,7 +36,7 @@ def Sn(Elab, Z1, Z2):
 def gamma(M1, M2):
     return (4*M1*M2) / ((M1+M2)**2)
 
-Elab = np.logspace(np.log10(5), np.log10(5e6), 2000)
+Elab = np.logspace(np.log10(5), np.log10(5e6), 100)
 Sn_res = []
 for E in Elab:
     Sn_res.append(Sn(E, Z1, Z2))
