@@ -6,12 +6,12 @@ from scipy.integrate import simpson
 eps = np.finfo(float).eps
 
 # 1H to 28Si    
-Z1, M1 = 1, 1.007825  
-Z2, M2 = 14, 28.085 
+# Z1, M1 = 1, 1.007825  
+# Z2, M2 = 14, 28.085 
 
 # 28Si to 197Au
-# Z1, M1  = 14, 1.007825
-# Z2, M2 = 79, 196.966570 
+Z1, M1  = 14, 1.007825
+Z2, M2 = 79, 196.966570 
 
 def F(u, b, rmin, Ecom, Z1, Z2):
     res = ((b**2 * (2 - u**2)) + (rmin**2 / (u**2 * Ecom)) * (V(rmin, Z1, Z2) - V(rmin / (1 - u**2), Z1, Z2)))
@@ -19,15 +19,13 @@ def F(u, b, rmin, Ecom, Z1, Z2):
     return 1 / np.sqrt(res)
 
 u_space = np.linspace(eps, 1 - eps, 500)
-
 def theta(b, Ecom, Z1, Z2):
     rmin = get_rmin(Z1, Z2, Ecom, b)
    
     y = F(u_space, b, rmin, Ecom, Z1, Z2)
     return np.pi - 4 * b * simpson(y, u_space)
 
-b_max = 10
-
+b_max = 5
 b_space = np.linspace(eps, b_max, 500)
 def Sn(Elab, Z1, Z2):
     E = Ecom(Elab, M1, M2)

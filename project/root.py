@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import constants
 from scipy.optimize import root
 
 alpha = np.array([0.1818, 0.5099, 0.2802, 0.02817])
@@ -9,8 +8,12 @@ beta = np.array([3.2, 0.9423, 0.4028, 0.2016])
 eps_0 = 8.854187817
 e = 1.6021892
 
-eps_div_e = ((e**2)/eps_0) * 10**-16
+"""
+(e^2 / e_0) coverted to Angstroms 
+Also, taking into account 6.242e18 of converting V(r) into eV from Joules
+"""
 
+eps_div_e = ((e**2)/eps_0) * 10**2
 
 def phi(x):
     sum = 0
@@ -41,7 +44,7 @@ def V(r, Z1, Z2):
     res = ((Z1 * Z2) / (4 * np.pi * r)) * eps_div_e * phi(r / au(Z1, Z2))
 
     # Converts to eV from Joules
-    return res * 6.242e+18
+    return res * 6.242
 
 # Removing the square root as we want to find the root of g(rmin) = 0
 def g(r, Z1, Z2, Ecom, b):
