@@ -21,12 +21,12 @@ Z2, M2 = 14, 28.085
 # Z1, M1  = 14, 1.007825
 # Z2, M2 = 79, 196.966570 
 
-Elab = np.logspace(np.log10(5), np.log10(5e6), 10000)
+Elab = np.logspace(1, np.log10(5e6), 10000)
 
 Sns = []
 for E in Elab:
     # Energy converted to KeV
-    Sns.append(Sn(Z1, Z2, M1, M2, E / 1000))
+    Sns.append(Sn(Z1, Z2, M1, M2, E / 1000) * 10**14)
 
 plt.loglog(Elab, Sns)
 plt.show()

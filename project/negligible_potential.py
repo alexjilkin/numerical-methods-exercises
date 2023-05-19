@@ -5,17 +5,19 @@ from root import get_rmin, Ecom, V
 import sys
 eps = sys.float_info.epsilon
 
-"""
-    Plots V(r) as a function of b to find b_max
-"""
-Z1 = 1
-Z2 = 14
-Elab = 20
+""" Plots V(r) as a function of b to find b_max """
 
-M1 = 1.008 
-M2 = 28.085 
+# 1H to 28Si    
+Z1, M1 = 1, 1.007825  
+Z2, M2 = 14, 28.085 
 
-bs = np.linspace(eps, 10e-8, 10000)
+# 28Si to 197Au
+# Z1, M1  = 14, 1.007825
+# Z2, M2 = 79, 196.966570 
+
+Elab = 500
+
+bs = np.linspace(eps, 2, 1000)
 
 Vs = []
 for b in bs:

@@ -14,16 +14,21 @@ Z2, M2 = 14, 28.085
 # Z2, M2 = 79, 196.966570 
 
 def F(u, b, rmin, Ecom, Z1, Z2):
-    return ((b**2 * (2 - u**2)) + (rmin**2 / (u**2 * Ecom)) * (V(rmin, Z1, Z2) - V(rmin / (1 - u**2), Z1, Z2))) ** -0.5
+    res = ((b**2 * (2 - u**2)) + (rmin**2 / (u**2 * Ecom)) * (V(rmin, Z1, Z2) - V(rmin / (1 - u**2), Z1, Z2)))
 
-u_space = np.linspace(eps, 1 - eps, 1000)
+    return 1 / np.sqrt(res)
+
+u_space = np.linspace(eps, 1 - eps, 500)
+
 def theta(b, Ecom, Z1, Z2):
     rmin = get_rmin(Z1, Z2, Ecom, b)
    
     y = F(u_space, b, rmin, Ecom, Z1, Z2)
     return np.pi - 4 * b * simpson(y, u_space)
 
-b_space = np.linspace(eps, 1e-7, 1000)
+b_max = 10
+
+b_space = np.linspace(eps, b_max, 500)
 def Sn(Elab, Z1, Z2):
     E = Ecom(Elab, M1, M2)
 
@@ -36,16 +41,13 @@ def Sn(Elab, Z1, Z2):
 def gamma(M1, M2):
     return (4*M1*M2) / ((M1+M2)**2)
 
-Elab = np.logspace(np.log10(5), np.log10(5e6), 100)
+Elab = np.logspace(1, np.log10(5e6), 200)
 Sn_res = []
 for E in Elab:
     Sn_res.append(Sn(E, Z1, Z2))
 
-# Sn_res.reverse()
 # Plots a log-log 
 plt.loglog(Elab, Sn_res)
 plt.xlabel('Elab')
 plt.ylabel('Sn(Elab)')
 plt.show()
-
-# print(Sn(5e6, Z1, Z2))
