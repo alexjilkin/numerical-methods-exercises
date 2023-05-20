@@ -12,19 +12,21 @@ Z1, M1 = 1, 1.007825
 Z2, M2 = 14, 28.085 
 
 # 28Si to 197Au
-Z1, M1  = 14, 1.007825
-Z2, M2 = 79, 196.966570 
+# Z1, M1  = 14, 1.007825
+# Z2, M2 = 79, 196.966570 
 
-Elab = 10
+for Elab in np.logspace(1, np.log10(5e6), 10):
+    bs = np.linspace(eps, 5, 1000)
 
-bs = np.linspace(eps, 5, 1000)
+    Vs = []
+    for b in bs:
+        rmin = get_rmin(Z1, Z2, Ecom(Elab, M1, M2), b)
+        Vs.append(V(rmin, Z1, Z2))
 
-Vs = []
-for b in bs:
-    rmin = get_rmin(Z1, Z2, Ecom(Elab, M1, M2), b)
-    Vs.append(V(rmin, Z1, Z2))
+    plt.xlabel('b')
+    plt.ylabel('V(rmin)')
+    plt.plot(bs, Vs, label=f"Elab={Elab:.2f}")
 
-plt.xlabel('b')
-plt.ylabel('V(rmin)')
-plt.plot(bs, Vs)
+plt.ylim(0, 200)
+plt.legend()
 plt.show()
